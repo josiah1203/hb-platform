@@ -22,7 +22,7 @@ hb-verify-bridge:
 hb-verify-hos:
 	@if [ -d "$(DESKTOP)/hbp-cloud/api/tests" ]; then \
 	  cd "$(DESKTOP)/hbp-cloud/api" && PYTHONPATH="$(DESKTOP)/hbp-cloud:$(DESKTOP)/hbp-cloud/api:$(DESKTOP)/hbp-cloud/graph" \
-	    python3 -m pytest tests/test_hos_version_control.py tests/test_hnf.py tests/test_collaboration.py -q --tb=line 2>/dev/null \
+	    python3 -m pytest tests/test_hos_version_control.py tests/test_semantic_merge.py tests/test_hnf.py tests/test_collaboration.py -q --tb=line 2>/dev/null \
 	    || echo "hb/hos: skipped (pytest/deps unavailable — pip install -r requirements-dev.txt)"; \
 	else \
 	  echo "hb/hos: skipped (hbp-cloud/api not found)"; \
