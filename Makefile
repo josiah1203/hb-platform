@@ -39,7 +39,11 @@ hb-verify-hbw:
 	fi
 
 hb-verify-workflow:
-	@echo "hb/workflow: skipped (packages/workflow stub)"
+	@if [ -f "$(DESKTOP)/hbp-cloud/api/tests/test_workflow_engine.py" ]; then \
+	  cd "$(DESKTOP)/hbp-cloud/api" && python3 -m pytest tests/test_workflow_engine.py -q --noconftest; \
+	else \
+	  echo "hb/workflow: skipped (test_workflow_engine.py not found)"; \
+	fi
 
 hb-verify-cli:
 	@if [ -f "$(DESKTOP)/hb/pyproject.toml" ]; then \
