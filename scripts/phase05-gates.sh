@@ -29,20 +29,26 @@ else
   fail "hbp-cloud/scripts/collaboration_soak.py (collab soak reference)"
 fi
 
-# --- Rust: hnf + hb-bridge ---
+# --- Rust: hnf + hb-bridge (canonical checkouts only; isolated target dirs) ---
+cargo_test_canonical() {
+  local repo="$1"
+  local label="$2"
+  if [[ ! -f "$DESKTOP/$repo/Cargo.toml" ]]; then
+    skip "$label not found"
+    return 0
+  fi
+  local target_dir="$DESKTOP/$repo/target/gates"
+  if (cd "$DESKTOP/$repo" && CARGO_TARGET_DIR="$target_dir" cargo test -q); then
+    pass "$label cargo test"
+  else
+    fail "$label cargo test"
+  fi
+}
+
 echo ""
 echo "-- cargo test (hnf, hb-bridge) --"
-if [[ -f "$DESKTOP/hnf/Cargo.toml" ]]; then
-  (cd "$DESKTOP/hnf" && cargo test -q) && pass "hnf cargo test" || fail "hnf cargo test"
-else
-  skip "hnf not found"
-fi
-
-if [[ -f "$DESKTOP/hb-bridge/Cargo.toml" ]]; then
-  (cd "$DESKTOP/hb-bridge" && cargo test -q) && pass "hb-bridge cargo test" || fail "hb-bridge cargo test"
-else
-  skip "hb-bridge not found"
-fi
+cargo_test_canonical "hnf" "hnf"
+cargo_test_canonical "hb-bridge" "hb-bridge"
 
 # --- Python: hbp-cloud HOS subset ---
 echo ""

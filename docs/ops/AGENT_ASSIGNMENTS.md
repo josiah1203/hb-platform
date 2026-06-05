@@ -1,28 +1,35 @@
-# HummingBird v8 — wave 1 agent assignments
+# HummingBird v8 — agent assignments
 
-Active parallel agents for Phase 0 / M1 scaffolding. Canonical workstream table: [`AGENTS.md`](../../AGENTS.md).
+Canonical workstream table: [`AGENTS.md`](../../AGENTS.md).
 
-## Wave 1 (running)
+## Wave 1 (merged to main — 2026-06-04)
 
-| Agent ID | Subagent | Target repo | Worktree path | Branch (worktree) | Verify (from `hb-platform`) |
-|----------|----------|-------------|---------------|-------------------|-------------------------------|
-| **format** | `hcp-engineer` | [`hnf`](https://github.com/josiah1203/hnf) | `/Users/josiah/Desktop/hb-v8-format` | `feat/hb-v8-format-worktree` | `make hb-verify-format` |
-| **hos** | `hcp-backend` | [`hbp-cloud`](https://github.com/josiah1203/hbp-cloud) (private) | `/Users/josiah/Desktop/hb-v8-hos` | `feat/hb-v8-hos-worktree` | `make hb-verify-hos` |
-| **bridge** | `hcp-parser` | [`hb-bridge`](https://github.com/josiah1203/hb-bridge) | `/Users/josiah/Desktop/hb-v8-bridge` | `feat/hb-v8-bridge-worktree` | `make hb-verify-bridge` |
+| Workstream | Repo | Branch merged | Verify (from `hb-platform`) |
+|------------|------|---------------|-------------------------------|
+| **format** | [`hnf`](https://github.com/josiah1203/hnf) | `feat/hb-v8-format-m1` | `make hb-verify-format` |
+| **bridge** | [`hb-bridge`](https://github.com/josiah1203/hb-bridge) | `feat/hb-v8-bridge-m1` | `make hb-verify-bridge` |
+| **hos** | [`hbp-cloud`](https://github.com/josiah1203/hbp-cloud) (private) | `feat/hb-v8-hos-semantic-merge` | `make hb-verify-hos` |
+| **workflow** | [`hbp-cloud`](https://github.com/josiah1203/hbp-cloud) (private) | `feat/hb-v8-workflow-engine` | `make hb-verify-workflow` |
+| **hbw** | [`hbw`](https://github.com/josiah1203/hbw) | `feat/hb-v8-hbw-alpha-shell` | `make hb-verify-hbw` |
+| **cli** | [`hb`](https://github.com/josiah1203/hb) | `feat/hb-v8-cli-m2` | `make hb-verify-cli` |
 
-### Mapping (repo ownership)
+Wave 1 worktrees (`hb-v8-format`, `hb-v8-bridge`, `hb-v8-hos`) remain for parallel development but **gates and CI use canonical repo paths only** (`scripts/phase05-gates.sh` sets isolated `CARGO_TARGET_DIR`).
 
-- **format → hnf** — spec v0.1, `hnf-core`, `schemas/domains`
-- **hos → hbp-cloud** — HOS, semantic merge, object store / API services
-- **bridge → hb-bridge** — KiCad/FreeCAD plugins, roundtrip CI
+## Wave 2 (ready to launch)
 
-### Bootstrap commands (already run)
+| Agent ID | Subagent | Target repo | Focus | Verify |
+|----------|----------|-------------|-------|--------|
+| **collab** | `hcp-backend` | `hbp-cloud` | CRDT service — replace collaboration stub | `make hb-verify-collab` |
+| **bridge** | `hcp-parser` | `hb-bridge` | Phase 0 roundtrip matrix (KLayout, ngspice, Yosys, …) | `make hb-verify-bridge` |
+| **platform** | `hcp-infra` | `hb-platform` + `hbp-cloud` | Restore drill, Helm HCP→HBP rename, CI | `make hb-verify-platform` |
+
+### Bootstrap (wave 2 worktrees)
 
 ```bash
 cd /Users/josiah/Desktop/hb-platform
-./scripts/hb-worktree.sh create format
-./scripts/hb-worktree.sh create bridge
-./scripts/hb-worktree.sh create hos
+./scripts/hb-worktree.sh create collab   # optional — or work in canonical hbp-cloud
+./scripts/hb-worktree.sh create bridge   # optional
+./scripts/hb-worktree.sh create platform # optional
 ```
 
 ### Parallel verify (one host)
@@ -30,21 +37,25 @@ cd /Users/josiah/Desktop/hb-platform
 ```bash
 cd /Users/josiah/Desktop/hb-platform
 make hb-verify-parallel   # format, bridge, hos, cli
+make hb-verify-gates      # Phase 0.5 stub (docs + unit tests)
 ```
 
 **Constraint:** one `docker compose` integration stack per machine (ports 5433/6380/9002 or project `hbp-dev`).
 
-## Not assigned in wave 1
+## Not yet assigned
 
-`collab`, `hbw`, `workflow`, `cli`, `platform`, `registry`, `ai-local`, `devrel`, `coordinator`, `security` — create worktrees with `./scripts/hb-worktree.sh create <id>` when starting those agents.
+`registry`, `ai-local`, `devrel`, `coordinator`, `security` — create worktrees with `./scripts/hb-worktree.sh create <id>` when starting those agents.
 
-## Related polyrepos (pushed, no wave-1 worktree)
+## Related polyrepos
 
-| Repo | URL |
-|------|-----|
-| hb-platform | https://github.com/josiah1203/hb-platform |
-| hbw | https://github.com/josiah1203/hbw |
-| hb | https://github.com/josiah1203/hb |
-| hbp-protocol | https://github.com/josiah1203/hbp-protocol |
+| Repo | URL | Default branch |
+|------|-----|----------------|
+| hb-platform | https://github.com/josiah1203/hb-platform | `main` |
+| hnf | https://github.com/josiah1203/hnf | `main` |
+| hb-bridge | https://github.com/josiah1203/hb-bridge | `main` |
+| hbp-cloud | https://github.com/josiah1203/hbp-cloud (private) | `main` |
+| hbw | https://github.com/josiah1203/hbw | `main` |
+| hb | https://github.com/josiah1203/hb | `main` |
+| hbp-protocol | https://github.com/josiah1203/hbp-protocol | `main` |
 
 Push details: [`PUSH_STATUS.md`](PUSH_STATUS.md).
