@@ -27,3 +27,5 @@ python3 ../hbp-cloud/scripts/collaboration_soak.py \
 ```
 
 Verify: `make hb-verify-gates` (runs `scripts/phase05-gates.sh`).
+
+**M4 evidence:** [`docs/ops/M4_GATE_RUN.md`](ops/M4_GATE_RUN.md) · collab [`collaboration_soak_local.json`](ops/collaboration_soak_local.json) · restore [`restore_drill_local.md`](ops/restore_drill_local.md) · status [`STATUS_PAGE.md`](ops/STATUS_PAGE.md)
