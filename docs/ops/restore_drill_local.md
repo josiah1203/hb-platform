@@ -1,23 +1,24 @@
 # Restore drill evidence (Phase 0.5 — local)
 
-Dry-run captured **2026-06-05T00:21:30Z** from `hbp-cloud/infra/kind/restore-drill.sh --dry-run`.
+Dry-run captured **2026-06-05T00:29:12Z** (M4 gate run) from `hbp-cloud/infra/kind/restore-drill.sh --dry-run`.  
+Prior dry-run: 2026-06-05T00:21:30Z (wave2-platform).
 
 | Field | Value |
 |-------|--------|
-| **Executed (UTC)** | 2026-06-05T00:21:30Z |
-| **Operator** | wave2-platform agent (dry-run only) |
+| **Executed (UTC)** | 2026-06-05T00:29:12Z |
+| **Operator** | hcp-engineer M4 gates (dry-run only) |
 | **Mechanism** | `infra/kind/restore-drill.sh` |
 | **Source** | kind namespace `${HBP_NAMESPACE:-hbp}` / Postgres pod |
 | **Backup size (bytes)** | _n/a — dry-run_ |
 | **alembic_version rows** | _n/a — dry-run (≥ 1 required for PASS)_ |
 | **RPO target** | ≤ 6 hours (Helm backup CronJob schedule) |
 | **RTO target** | ≤ 30 minutes (scripted restore) |
-| **Result** | **DRY-RUN** (prerequisites documented; full drill pending kind cluster) |
+| **Result** | **DRY-RUN PASS** — full drill **BLOCKED** (Docker daemon down on M4 host; see [`M4_GATE_RUN.md`](M4_GATE_RUN.md)) |
 
 ## Dry-run output
 
 ```
-Restore drill dry-run (20260605T002130Z)
+Restore drill dry-run (20260605T002912Z)
 
 Prerequisites:
   1. Docker Desktop running (ensure-tools.sh)
