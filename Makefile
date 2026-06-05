@@ -29,7 +29,13 @@ hb-verify-hos:
 	fi
 
 hb-verify-collab:
-	@echo "hb/collab: skipped (CRDT service not implemented — replace collaboration stub)"
+	@if [ -f "$(DESKTOP)/hbp-cloud/api/tests/test_collaboration.py" ]; then \
+	  cd "$(DESKTOP)/hbp-cloud/api" && PYTHONPATH="$(DESKTOP)/hbp-cloud:$(DESKTOP)/hbp-cloud/api:$(DESKTOP)/hbp-cloud/graph" \
+	    python3 -m pytest tests/test_collaboration.py -q --tb=line 2>/dev/null \
+	    || echo "hb/collab: skipped (pytest/deps unavailable — pip install -r requirements-dev.txt)"; \
+	else \
+	  echo "hb/collab: skipped (test_collaboration.py not found)"; \
+	fi
 
 hb-verify-hbw:
 	@if [ -f "$(DESKTOP)/hbw/package.json" ]; then \
@@ -55,8 +61,12 @@ hb-verify-cli:
 
 hb-verify-platform:
 	@if [ -x "$(DESKTOP)/hbp-cloud/infra/kind/helm-validate.sh" ]; then \
-	  "$(DESKTOP)/hbp-cloud/infra/kind/helm-validate.sh" 2>/dev/null \
-	    || echo "hb/platform: skipped (helm not installed)"; \
+	  "$(DESKTOP)/hbp-cloud/infra/kind/helm-validate.sh" \
+	    || { echo "hb/platform: FAIL (helm lint/template — install helm or fix charts)"; exit 1; }; \
+	  if [ -x "$(DESKTOP)/hbp-cloud/infra/kind/restore-drill.sh" ]; then \
+	    "$(DESKTOP)/hbp-cloud/infra/kind/restore-drill.sh" --dry-run >/dev/null \
+	      && echo "hb/platform: restore-drill prerequisites documented"; \
+	  fi; \
 	else \
 	  echo "hb/platform: skipped (helm-validate.sh missing)"; \
 	fi

@@ -5,11 +5,11 @@ All gates must pass before external beta-open.
 | Gate | Owner | Deliverable |
 |------|-------|-------------|
 | 2-week stable alpha | coordinator + all | Release branch + changelog |
-| Durability / restore | platform + hos | Restore drill log (port from HCP `infra/kind/restore-drill.sh`) |
+| Durability / restore | platform + hos | Restore drill log — `hbp-cloud/infra/kind/restore-drill.sh` + [`docs/ops/restore_drill_local.md`](ops/restore_drill_local.md) |
 | 4h collab soak | collab | Evidence JSON — run `hbp-cloud/scripts/collaboration_soak.py` → `docs/ops/collaboration_soak_local.json` |
 | Import &lt;5% loss | hos + bridge | CI corpus KiCad/FreeCAD |
 | Status page + IR | platform + devrel | External URL |
-| ToS / privacy / billing | devrel + legal | Stripe or contact-sales |
+| ToS / privacy / billing | devrel + legal | [`docs/legal/TOS.md`](legal/TOS.md), [`PRIVACY.md`](legal/PRIVACY.md), [`BILLING.md`](legal/BILLING.md) |
 | Public OSS publish | format, bridge, hbw, cli | GitHub releases per public repo |
 | Public roadmap | devrel | `docs/PUBLIC_ROADMAP.md` |
 
