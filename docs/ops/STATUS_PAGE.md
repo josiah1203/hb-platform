@@ -1,35 +1,25 @@
-# Status page — Phase 0.5 gate (stub)
+# Status page — Phase 0.5 (M4)
 
-**Gate status:** **BLOCKED** — pending external hosting  
-**Last updated (UTC):** 2026-06-05T00:29:53Z
+**Gate status:** **BLOCKED** — external hosting not provisioned.
 
-## Planned URL
+| Field | Value |
+|-------|--------|
+| **Public URL** | _pending_ (e.g. `status.hummingbirdlabs.io` or Better Stack / Instatus) |
+| **Incident response** | Runbook TBD with platform + devrel |
+| **Last updated (UTC)** | 2026-06-05T00:35:00Z |
 
-`https://status.hummingbird.dev` (placeholder — not provisioned)
+## Planned components
 
-## What will be published at beta-open
+- **Uptime** — HBP API, HOS object storage, collaboration WebSocket/presence
+- **Maintenance** — scheduled windows for Postgres/Neo4j restore drills
+- **Subscribe** — email/RSS webhook for beta customers
 
-- API availability (HBP `/v1/health`)
-- Object store ingest latency (p50/p99)
-- Collaboration service heartbeat success rate
-- Scheduled maintenance windows
+## Local substitute
 
-## Incident response (IR)
+Until a URL exists, gate evidence lives in [`M4_GATE_RUN.md`](M4_GATE_RUN.md) (Status page row: BLOCKED).
 
-- **Owner:** platform + devrel (per [`PHASE_0.5.md`](../PHASE_0.5.md))
-- **Runbook:** not hosted yet — draft in private `hbp-cloud` ops docs when cluster is live
-- **Escalation:** contact-sales / on-call TBD before public beta
+## User actions
 
-## Local substitute (development only)
-
-```bash
-curl -s "${HBP_API_URL:-http://localhost:8000}/health"
-```
-
-Do not treat localhost health as satisfying the M4 status-page gate.
-
-## Next steps
-
-1. Choose provider (Statuspage.io, Instatus, or static + synthetic checks).
-2. Wire checks to staging/production `HBP_API_URL`.
-3. Link from HBW shell and `docs/PUBLIC_ROADMAP.md`.
+1. Choose status vendor (Instatus, Better Uptime, etc.).
+2. Point DNS + link from product footer and [`PHASE_0.5.md`](../PHASE_0.5.md).
+3. Attach IR playbook (PagerDuty/Opsgenie) and mark gate **PASS** in `M4_GATE_RUN.md`.

@@ -1,24 +1,20 @@
 # Restore drill evidence (Phase 0.5 — local)
 
-Dry-run captured **2026-06-05T00:29:12Z** (M4 gate run) from `hbp-cloud/infra/kind/restore-drill.sh --dry-run`.  
-Prior dry-run: 2026-06-05T00:21:30Z (wave2-platform).
+## Latest run
 
 | Field | Value |
 |-------|--------|
-| **Executed (UTC)** | 2026-06-05T00:29:12Z |
-| **Operator** | hcp-engineer M4 gates (dry-run only) |
-| **Mechanism** | `infra/kind/restore-drill.sh` |
-| **Source** | kind namespace `${HBP_NAMESPACE:-hbp}` / Postgres pod |
-| **Backup size (bytes)** | _n/a — dry-run_ |
-| **alembic_version rows** | _n/a — dry-run (≥ 1 required for PASS)_ |
-| **RPO target** | ≤ 6 hours (Helm backup CronJob schedule) |
-| **RTO target** | ≤ 30 minutes (scripted restore) |
-| **Result** | **DRY-RUN PASS** — full drill **BLOCKED** (Docker daemon down on M4 host; see [`M4_GATE_RUN.md`](M4_GATE_RUN.md)) |
+| **Executed (UTC)** | 2026-06-05T00:35:06Z |
+| **Operator** | hcp-engineer-m4-gates |
+| **Mechanism** | `hbp-cloud/infra/kind/restore-drill.sh` |
+| **Mode** | `--dry-run` |
+| **Docker** | **Unavailable** on gate host (`docker info` failed) |
+| **Result** | **DRY-RUN PASS** — full drill **BLOCKED** |
 
-## Dry-run output
+## Dry-run output (2026-06-05T00:35:06Z)
 
 ```
-Restore drill dry-run (20260605T002912Z)
+Restore drill dry-run (20260605T003506Z)
 
 Prerequisites:
   1. Docker Desktop running (ensure-tools.sh)
@@ -27,7 +23,7 @@ Prerequisites:
   4. Postgres Ready in namespace ${HBP_NAMESPACE:-hbp}
 
 Command (no cluster changes):
-  ./infra/kind/restore-drill.sh
+  restore-drill.sh
 
 Alternative without kind (docker-compose Postgres):
   ./infra/kind/restore-drill-docker.sh
@@ -35,13 +31,24 @@ Alternative without kind (docker-compose Postgres):
 Evidence template: hb-platform/docs/ops/restore_drill_local.md
 ```
 
+## Full drill (not executed)
+
+| Field | Value |
+|-------|--------|
+| **Source** | kind namespace `${HBP_NAMESPACE:-hbp}` / Postgres pod |
+| **Backup size (bytes)** | _n/a_ |
+| **alembic_version rows** | _n/a (≥ 1 required for PASS)_ |
+| **RPO target** | ≤ 6 hours |
+| **RTO target** | ≤ 30 minutes |
+| **Result** | **BLOCKED** — start Docker, then kind path or `restore-drill-docker.sh` |
+
 ## Prerequisites (kind path)
 
 1. Docker Desktop running
 2. `./infra/kind/create-cluster.sh`
 3. `./infra/kind/install-hbp.sh` (wait for Postgres Ready)
-4. `./infra/kind/restore-drill.sh --dry-run` to print checklist without changes
-5. `./infra/kind/restore-drill.sh` for full PASS evidence (update table above)
+4. `./infra/kind/restore-drill.sh --dry-run`
+5. `./infra/kind/restore-drill.sh` — update table with backup bytes + alembic row count
 
 ## Prerequisites (docker-compose path)
 
@@ -57,6 +64,6 @@ DATABASE_URL=postgresql+psycopg2://hcp:hcp@127.0.0.1:5433/hcp \
   cd ../hbp-cloud/api && PYTHONPATH=.. pytest tests/test_hos_version_control.py -q --maxfail=1
 ```
 
-## Notes
+## Prior dry-run
 
-Full restore drill requires a running kind cluster or docker-compose Postgres. This evidence stub satisfies Phase 0.5 documentation until a live drill is executed.
+2026-06-05T00:21:30Z — wave2-platform agent (same prerequisites; superseded by run above).
