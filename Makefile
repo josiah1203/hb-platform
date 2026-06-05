@@ -46,7 +46,9 @@ hb-verify-hbw:
 
 hb-verify-workflow:
 	@if [ -f "$(DESKTOP)/hbp-cloud/api/tests/test_workflow_engine.py" ]; then \
-	  cd "$(DESKTOP)/hbp-cloud/api" && python3 -m pytest tests/test_workflow_engine.py -q --noconftest; \
+	  cd "$(DESKTOP)/hbp-cloud/api" && python3 -m pytest tests/test_workflow_engine.py -q --noconftest && \
+	  PYTHONPATH="$(DESKTOP)/hbp-cloud:$(DESKTOP)/hbp-cloud/api:$(DESKTOP)/hbp-cloud/graph" \
+	    python3 -m pytest tests/test_workflow_api.py -q --tb=line; \
 	else \
 	  echo "hb/workflow: skipped (test_workflow_engine.py not found)"; \
 	fi
@@ -75,7 +77,7 @@ hb-verify-registry:
 	@echo "hb/registry: skipped (Phase 1 private registry)"
 
 hb-verify-ai-local:
-	@echo "hb/ai-local: skipped (HBW sidebar automations — M3)"
+	@bash scripts/verify-ai-local.sh
 
 hb-verify-devrel:
 	@test -f docs/PUBLIC_ROADMAP.md && echo "hb/devrel: docs present" || echo "hb/devrel: skipped"
