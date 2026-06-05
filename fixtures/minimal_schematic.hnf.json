@@ -1,0 +1,15 @@
+{
+  "manifest": {
+    "hnf_version": "0.1",
+    "doc_id": "550e8400-e29b-41d4-a716-446655440000",
+    "disciplines": ["schematic"]
+  },
+  "objects": [
+    {
+      "domain": "schematic",
+      "version": "0.1",
+      "object_id": "660e8400-e29b-41d4-a716-446655440001",
+      "hnf_type": "hardware.object"
+    }
+  ]
+}

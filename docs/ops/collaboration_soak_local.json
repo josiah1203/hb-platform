@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "gate": "phase_0.5_collab_soak",
+  "status": "template",
+  "description": "Evidence stub for 4h collaboration soak. Replace status with PASS after a successful run.",
+  "run_instructions": {
+    "prerequisites": [
+      "hbp-cloud API running (docker compose or kind install-hbp.sh)",
+      "Project UUID with editor role",
+      "pip install -r hbp-cloud/api/requirements-dev.txt"
+    ],
+    "command": "export HBP_API_URL=http://localhost:8000 && export HBP_PROJECT_ID=<uuid> && export HBP_EMAIL=admin@dev.hbp HBP_PASSWORD=devpassword && python3 hbp-cloud/scripts/collaboration_soak.py --iterations 120 --interval-s 1 --log-file hb-platform/docs/ops/collaboration_soak_local.json",
+    "duration_target_hours": 4,
+    "verify": "make hb-verify-collab"
+  },
+  "executed_at_utc": null,
+  "operator": null,
+  "project_id": null,
+  "iterations_completed": 0,
+  "iterations_target": 14400,
+  "interval_seconds": 1,
+  "errors": [],
+  "metrics": {
+    "presence_heartbeats": 0,
+    "crdt_operations": 0,
+    "soft_lock_acquire": 0,
+    "soft_lock_release": 0,
+    "p99_latency_ms": null
+  },
+  "result": "PENDING"
+}

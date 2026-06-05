@@ -9,7 +9,7 @@ All gates must pass before external beta-open.
 | 4h collab soak | collab | Evidence JSON — run `hbp-cloud/scripts/collaboration_soak.py` → `docs/ops/collaboration_soak_local.json` |
 | Import &lt;5% loss | hos + bridge | CI corpus KiCad/FreeCAD |
 | Status page + IR | platform + devrel | External URL |
-| ToS / privacy / billing | devrel + legal | [`docs/legal/TOS.md`](legal/TOS.md), [`PRIVACY.md`](legal/PRIVACY.md), [`BILLING.md`](legal/BILLING.md) |
+| ToS / privacy / billing | devrel + legal | [`docs/legal/TOS.md`](legal/TOS.md), [`docs/legal/PRIVACY.md`](legal/PRIVACY.md), [`docs/legal/BILLING.md`](legal/BILLING.md) |
 | Public OSS publish | format, bridge, hbw, cli | GitHub releases per public repo |
 | Public roadmap | devrel | `docs/PUBLIC_ROADMAP.md` |
 

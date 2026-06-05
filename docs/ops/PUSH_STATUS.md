@@ -1,6 +1,6 @@
 # HummingBird v8 — GitHub push status
 
-Updated: 2026-06-04 (Phase 1 + Wave 2 merge complete)
+Updated: 2026-06-05 (Wave 2 merge + M3/M4 evidence)
 
 ## GitHub auth
 
@@ -8,38 +8,57 @@ Updated: 2026-06-04 (Phase 1 + Wave 2 merge complete)
 - **Owner:** `josiah1203` (`HBP_GH_ORG` unset)
 - **Protocol:** SSH (`git@github.com:...`)
 
-## All merges pushed to `main`
+## Wave 2 merges pushed to `main`
 
-| Repo | Visibility | Remote URL | `main` tip | Merged branches |
-|------|------------|------------|------------|-----------------|
-| hb-platform | public | https://github.com/josiah1203/hb-platform | Phase 2c ops + legal stubs | `feat/hb-v8-platform-ops-docs`, `feat/hb-v8-platform-infra` |
-| hnf | public | https://github.com/josiah1203/hnf | format M1 | `feat/hb-v8-format-m1` |
-| hb-bridge | public | https://github.com/josiah1203/hb-bridge | Phase 0 tool matrix | `feat/hb-v8-bridge-m1`, `feat/hb-v8-bridge-phase0-matrix` |
-| hbp-cloud | **private** | https://github.com/josiah1203/hbp-cloud | hos + workflow + collab + infra | `feat/hb-v8-hos-semantic-merge`, `feat/hb-v8-workflow-engine`, `feat/hb-v8-collab-crdt`, `feat/hb-v8-platform-infra` |
-| hbw | public | https://github.com/josiah1203/hbw | alpha shell | `feat/hb-v8-hbw-alpha-shell` |
-| hb | public | https://github.com/josiah1203/hb | CLI M2 | `feat/hb-v8-cli-m2` |
-| hbp-protocol | public | https://github.com/josiah1203/hbp-protocol | scaffold | — |
+| Repo | Visibility | `main` tip | Merged branches |
+|------|------------|------------|-----------------|
+| hb-platform | public | M3 smoke + M4 evidence | `feat/hb-v8-platform-infra` (prior), M3/M4 ops commit |
+| hnf | public | format M1 | `feat/hb-v8-format-m1` (wave 1) |
+| hb-bridge | public | Phase 0 tool matrix | `feat/hb-v8-bridge-phase0-matrix` |
+| hbp-cloud | **private** | collab + platform infra | `feat/hb-v8-platform-infra`, `feat/hb-v8-collab-crdt` |
+| hbw | public | HOS API client | `feat/hb-v8-hbw-alpha-shell` + M3 client |
+| hb | public | CLI M2 | `feat/hb-v8-cli-m2` (wave 1) |
+| hbp-protocol | public | scaffold | — |
 
-All default branches set to **`main`**.
+All default branches: **`main`**.
 
-## Verify status (post-merge)
+## OSS tags (v0.1.0-alpha)
+
+| Repo | Tag | Notes |
+|------|-----|-------|
+| hnf | `v0.1.0-alpha` | format M1 |
+| hb-bridge | `v0.1.0-alpha` | M1 + Phase 0 matrix |
+| hbw | `v0.1.0-alpha` | alpha shell + HOS client |
+| hb | `v0.1.0-alpha` | CLI M2 |
+
+## Verify status (post Wave 2)
 
 ```bash
 cd /Users/josiah/Desktop/hb-platform
-make hb-verify-parallel   # PASS — hnf 17, hb-bridge 22+, hbp-cloud 27 pytest, hb CLI 1
-make hb-verify-gates      # PASS — docs + cargo + hbp-cloud 18 pytest
+make hb-verify-parallel   # PASS
+make hb-verify-gates      # PASS
+make hb-verify-collab     # PASS
+make hb-verify-platform   # PASS
+./scripts/integration_smoke.sh  # PASS (offline)
 ```
 
-## Worktrees (optional — canonical repos are source of truth)
+## Worktrees (wave 1 — still present)
 
 | Workstream | Worktree path | Owning repo | Notes |
 |------------|---------------|-------------|-------|
-| format | `/Users/josiah/Desktop/hb-v8-format` | `hnf` | Merged; safe to remove |
-| bridge | `/Users/josiah/Desktop/hb-v8-bridge` | `hb-bridge` | Phase 0 matrix merged at `674540a` |
-| hos | `/Users/josiah/Desktop/hb-v8-hos` | `hbp-cloud` | Merged; safe to remove |
+| format | `/Users/josiah/Desktop/hb-v8-format` | `hnf` | Optional; canonical `hnf/` is source of truth |
+| bridge | `/Users/josiah/Desktop/hb-v8-bridge` | `hb-bridge` | Optional; gates skip worktree paths |
+| hos | `/Users/josiah/Desktop/hb-v8-hos` | `hbp-cloud` | Optional; semantic merge now on `main` |
 
-## Wave 3 follow-ups
+## Phase 0.5 evidence (stubs)
 
-- **M3 integration alpha:** `hb CLI → HOS upload → HBW repo/diff view`
-- **Phase 0.5 external gates:** collab soak evidence, restore drill log, OSS v0.1.0-alpha releases
-- Legal/billing stubs now in `docs/legal/` (TOS, privacy, billing)
+- [`docs/ops/collaboration_soak_local.json`](collaboration_soak_local.json) — template with run instructions
+- [`docs/ops/restore_drill_local.md`](restore_drill_local.md) — dry-run output captured
+- [`docs/ops/integration_smoke.md`](integration_smoke.md) — M3 end-to-end smoke path
+- [`docs/legal/`](../legal/) — TOS, privacy, billing stubs
+
+## Next steps
+
+- Run live 4h collab soak and full restore drill (replace evidence stubs with PASS)
+- GitHub releases from v0.1.0-alpha tags
+- Phase 1 parallel workstreams (workflow + hbw composer, format + bridge registry)
