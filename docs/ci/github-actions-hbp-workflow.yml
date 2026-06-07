@@ -1,0 +1,56 @@
+# GitHub Actions — HBP workflow CI template (Phase 1)
+
+Use this template in customer repos to run `hb` CLI workflow checks on push/PR.
+
+```yaml
+# .github/workflows/hbp-workflow.yml
+name: HBP Workflow Checks
+
+on:
+  push:
+    branches: [main, release/*]
+  pull_request:
+    branches: [main]
+
+jobs:
+  hbp-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install hb CLI
+        run: pip install ./hb  # or: pip install hummingbird-cli
+
+      - name: Authenticate
+        env:
+          HBP_API_URL: ${{ secrets.HBP_API_URL }}
+          HBP_ACCESS_TOKEN: ${{ secrets.HBP_ACCESS_TOKEN }}
+        run: hb auth login --token "$HBP_ACCESS_TOKEN"
+
+      - name: Validate HNF
+        run: hb hnf inspect --path .
+
+      - name: Run workflow checks
+        run: |
+          hb workflow list
+          hb workflow run --check drc.kicad --trigger commit
+          hb workflow run --check ifc.validate --trigger commit
+
+      - name: Branch protection gate (stub)
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "Branch protection + sim/AI gates integrated via HBP workflow engine"
+```
+
+## Secrets
+
+| Secret | Description |
+|--------|-------------|
+| `HBP_API_URL` | HBP cloud API base URL |
+| `HBP_ACCESS_TOKEN` | Org-scoped API token with `editor` role |
+
+## Local verify
+
+```bash
+make -C hb-platform hb-verify-workflow
+```

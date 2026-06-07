@@ -15,6 +15,8 @@ hb-verify-format:
 hb-verify-bridge:
 	@if [ -f "$(DESKTOP)/hb-bridge/Cargo.toml" ]; then \
 	  cd "$(DESKTOP)/hb-bridge" && cargo test -q; \
+	  cd "$(DESKTOP)/hb-bridge" && python3 -m pytest scripts/regression/tests/test_phase1_plugins.py -q 2>/dev/null \
+	    || echo "hb/bridge: phase1 pytest skipped"; \
 	else \
 	  echo "hb/bridge: skipped (../hb-bridge not found)"; \
 	fi
@@ -48,7 +50,7 @@ hb-verify-workflow:
 	@if [ -f "$(DESKTOP)/hbp-cloud/api/tests/test_workflow_engine.py" ]; then \
 	  cd "$(DESKTOP)/hbp-cloud/api" && python3 -m pytest tests/test_workflow_engine.py -q --noconftest && \
 	  PYTHONPATH="$(DESKTOP)/hbp-cloud:$(DESKTOP)/hbp-cloud/api:$(DESKTOP)/hbp-cloud/graph" \
-	    python3 -m pytest tests/test_workflow_api.py -q --tb=line; \
+	    python3 -m pytest tests/test_workflow_api.py tests/test_marketplace.py -q --tb=line; \
 	else \
 	  echo "hb/workflow: skipped (test_workflow_engine.py not found)"; \
 	fi
@@ -74,7 +76,12 @@ hb-verify-platform:
 	fi
 
 hb-verify-registry:
-	@echo "hb/registry: skipped (Phase 1 private registry)"
+	@if [ -f "$(DESKTOP)/hbp-cloud/api/tests/test_registry.py" ]; then \
+	  cd "$(DESKTOP)/hbp-cloud/api" && PYTHONPATH="$(DESKTOP)/hbp-cloud:$(DESKTOP)/hbp-cloud/api:$(DESKTOP)/hbp-cloud/graph" \
+	    python3 -m pytest tests/test_registry.py tests/test_marketplace.py tests/test_phase1_webhooks_billing.py -q --tb=line; \
+	else \
+	  echo "hb/registry: skipped (test_registry.py not found)"; \
+	fi
 
 hb-verify-ai-local:
 	@bash scripts/verify-ai-local.sh
