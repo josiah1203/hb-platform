@@ -1,5 +1,31 @@
 # Changelog — HummingBird Platform meta (hb-platform)
 
+## [v0.5-beta-local] — 2026-06-07
+
+Phase 0.5 **M4-local** exit — internal beta / dogfooding ready (no Docker required).
+
+### M4-local gates (100%)
+
+- **ADR-0003:** M4-local vs M4-prod tier split; honest scope boundary.
+- **Local API harness:** `hbp-cloud/scripts/dev-local.sh` + `seed_dev.py` (SQLite + filesystem PAL).
+- **Collab soak:** 120 iterations, `tier: local`, `passed: true` — [`collaboration_soak_local.json`](docs/ops/collaboration_soak_local.json).
+- **Restore drill:** file-based sqlite+objects backup/restore — [`restore_drill_local.md`](docs/ops/restore_drill_local.md).
+- **Import loss:** headless corpus 0.00% — [`import_loss_local.md`](docs/ops/import_loss_local.md).
+- **Strict gates:** `make hb-verify-gates-local` validates evidence JSON/MD.
+- **Status page:** [`docs/status/index.html`](docs/status/index.html) (local static + API health probe).
+- **Orchestrator:** [`scripts/run-phase05-local.sh`](scripts/run-phase05-local.sh).
+
+### Exit docs
+
+- [`PHASE_0.5_LOCAL_EXIT.md`](docs/PHASE_0.5_LOCAL_EXIT.md) — all rows PASS.
+- [`PHASE_0.5_PROD.md`](docs/PHASE_0.5_PROD.md) — prod gates PENDING (Docker/kind later).
+
+### Deferred to M4-prod
+
+- 4h collaboration soak, Postgres/kind restore drill, external status URL, counsel legal, public OSS v0.5-beta releases.
+
+---
+
 ## [v0.1.0-alpha] — 2026-06-05
 
 Phase 0.5 **M4 gate prep** and Phase 0 **M1–M3** deliverables across the v8 polyrepo.

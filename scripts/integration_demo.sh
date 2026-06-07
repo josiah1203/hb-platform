@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 # Week 20 integration demo — roundtrip → commit → workflow → HBW artifact path.
+#
+# API tiers (prefer local-first):
+#   M4-local (default):  cd ../hbp-cloud && ./scripts/dev-local.sh
+#   M4-prod (optional):  cd ../hbp-cloud && docker compose up -d
+#
 # Offline steps always run; live HOS steps run when API at HBP_API_URL is healthy.
 set -euo pipefail
 
@@ -25,24 +30,33 @@ else
   echo "SKIP: fixture or hb CLI missing"
 fi
 
-# --- Phase 2: live stack (compose) ---
+# --- Phase 2: live stack ---
 if ! curl -sf "${API_URL}/health/live" >/dev/null 2>&1; then
-  echo "SKIP live path: API not reachable at ${API_URL} (start: cd hbp-cloud && docker compose up -d)"
+  echo "SKIP live path: API not reachable at ${API_URL}"
+  echo "  M4-local (recommended): cd ${DESKTOP}/hbp-cloud && ./scripts/dev-local.sh"
+  echo "  M4-prod (optional):     cd ${DESKTOP}/hbp-cloud && docker compose up -d"
+  echo "  HBW UI:                 cd ${DESKTOP}/hbw && cp .env.local.example .env.local && npm run dev"
   echo "ok: integration demo (offline path complete)"
   exit 0
 fi
 
 echo "-- Step 3: auth + project bootstrap"
-EMAIL="${HBP_DEMO_EMAIL:-demo-$(date +%s)@hb.local}"
-PASSWORD="${HBP_DEMO_PASSWORD:-demopass123}"
-ORG="${HBP_DEMO_ORG:-demo-org-$(date +%s)}"
+if [[ "${HBP_USE_LOCAL_SEED:-}" == "1" ]]; then
+  EMAIL="${HBP_DEMO_EMAIL:-admin@dev.hbp}"
+  PASSWORD="${HBP_DEMO_PASSWORD:-devpassword}"
+  echo "Using local seed credentials (${EMAIL})"
+else
+  EMAIL="${HBP_DEMO_EMAIL:-demo-$(date +%s)@hb.local}"
+  PASSWORD="${HBP_DEMO_PASSWORD:-demopass123}"
+  ORG="${HBP_DEMO_ORG:-demo-org-$(date +%s)}"
 
-REGISTER_RESP="$(curl -sf -X POST "${API_URL}/v1/orgs/register" \
-  -H "Content-Type: application/json" \
-  -d "{\"org_name\":\"${ORG}\",\"email\":\"${EMAIL}\",\"password\":\"${PASSWORD}\",\"name\":\"Demo User\"}" 2>/dev/null || true)"
+  REGISTER_RESP="$(curl -sf -X POST "${API_URL}/v1/orgs/register" \
+    -H "Content-Type: application/json" \
+    -d "{\"org_name\":\"${ORG}\",\"email\":\"${EMAIL}\",\"password\":\"${PASSWORD}\",\"name\":\"Demo User\"}" 2>/dev/null || true)"
 
-if [[ -z "$REGISTER_RESP" ]]; then
-  echo "WARN: org register failed — try existing credentials via HBP_ACCESS_TOKEN"
+  if [[ -z "$REGISTER_RESP" ]]; then
+    echo "WARN: org register failed — try HBP_USE_LOCAL_SEED=1 or HBP_ACCESS_TOKEN"
+  fi
 fi
 
 LOGIN_RESP="$(curl -sf -X POST "${API_URL}/v1/auth/login" \
@@ -55,7 +69,7 @@ if [[ -n "$LOGIN_RESP" ]]; then
 fi
 
 if [[ -z "$TOKEN" ]]; then
-  echo "FAIL: no access token — set HBP_ACCESS_TOKEN or fix register/login" >&2
+  echo "FAIL: no access token — set HBP_ACCESS_TOKEN, HBP_USE_LOCAL_SEED=1, or fix register/login" >&2
   exit 1
 fi
 
@@ -120,3 +134,5 @@ if [[ -d "${DESKTOP}/hb" ]]; then
 fi
 
 echo "ok: Week 20 integration demo complete"
+echo "HBW live UI: cd ${DESKTOP}/hbw && cp .env.local.example .env.local  # set VITE_HBP_ACCESS_TOKEN"
+echo "             npm run dev  # http://localhost:5173 — see docs/ops/integration_smoke.md"

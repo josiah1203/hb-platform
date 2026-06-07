@@ -2,6 +2,58 @@
 
 End-to-end path for Phase 0 alpha: **hb CLI → HNF validate → hb-bridge roundtrip → HOS commit → workflow artifact → HBW**.
 
+## Local quickstart (M4-local, no Docker)
+
+Fast path for Phase 0.5 local gates — SQLite + in-process CRDT via `dev-local.sh`:
+
+```bash
+# 1. Start local API (seeds admin@dev.hbp / devpassword + Sample Project)
+cd ../hbp-cloud && ./scripts/dev-local.sh
+curl -sf http://localhost:8000/health/live && echo ok
+
+# 2. Offline + live integration demo (from hb-platform)
+cd ../hb-platform
+chmod +x scripts/integration_demo.sh
+./scripts/integration_demo.sh
+
+# Optional: reuse seeded dev user instead of registering a demo org
+HBP_USE_LOCAL_SEED=1 ./scripts/integration_demo.sh
+```
+
+**Docker (M4-prod, optional):** `cd ../hbp-cloud && docker compose up -d` — same demo script; use when validating compose/kind gates.
+
+### HBW against local API
+
+```bash
+# Token (hb CLI)
+cd ../hb
+python3 -m hb.main auth login \
+  --api-url http://localhost:8000 \
+  --email admin@dev.hbp \
+  --password devpassword \
+  --json
+# Copy access_token into hbw/.env.local
+
+cd ../hbw
+cp .env.local.example .env.local
+# Edit .env.local: set VITE_HBP_ACCESS_TOKEN=<token from login>
+npm run dev   # http://localhost:5173
+```
+
+Without `VITE_HBP_API_URL` + token, HBW falls back to mock data in `src/data/mock.ts`.
+
+### HBW live verify (Phase 0.5 local exit gate #10)
+
+Manual checklist after `dev-local.sh` + `.env.local` — confirms live API wiring (not mocks):
+
+| Route | Verify |
+|-------|--------|
+| `#/repositories` | Header shows **(live API)**; lists seeded **Sample Project** (or demo project from `integration_demo.sh`) |
+| `#/automation` | Lists workflow runs; trigger DRC shows live status (not mock banner) |
+| `#/collab` | Presence panel connects to `/v1/collaboration/presence` without mock fallback |
+
+Cross-ref: [`PHASE_0.5_LOCAL_EXIT.md`](../PHASE_0.5_LOCAL_EXIT.md) row **HBW live path** (documented here; signed when manual verify passes).
+
 ## Offline smoke (no API)
 
 From `hb-platform`:
@@ -29,6 +81,12 @@ Expected: exit code `0`, `"valid": true` from validate, `ok: headless roundtrip`
 Full path with live stack:
 
 ```bash
+# M4-local (recommended)
+cd ../hbp-cloud && ./scripts/dev-local.sh
+cd ../hb-platform
+./scripts/integration_demo.sh
+
+# M4-prod (optional)
 cd ../hbp-cloud && docker compose up -d
 cd ../hb-platform
 ./scripts/integration_demo.sh
@@ -37,7 +95,7 @@ cd ../hb-platform
 Steps executed when API is healthy:
 
 1. Headless KiCad roundtrip + HNF validate (offline)
-2. Register/login (or `HBP_ACCESS_TOKEN`)
+2. Register/login (or `HBP_ACCESS_TOKEN` / `HBP_USE_LOCAL_SEED=1`)
 3. Create project → `main` branch → HOS commit
 4. `POST /v1/projects/{id}/workflow/run` (DRC) → `hos_commit_id`
 5. Verify workflow snapshots on HOS commit
@@ -49,7 +107,10 @@ Offline-only: demo exits `0` after steps 1–2 if API is down.
 
 ```bash
 export HBP_API_URL=http://localhost:8000
-export HBP_ACCESS_TOKEN=$(hb auth login --email admin@dev.hbp --password devpassword --save 2>/dev/null | ...)
+export HBP_ACCESS_TOKEN=$(cd ../hb && python3 -m hb.main auth login \
+  --api-url http://localhost:8000 \
+  --email admin@dev.hbp --password devpassword --json \
+  | python3 -c "import sys,json; print(json.load(sys.stdin)['access_token'])")
 export HBP_PROJECT_ID=<project-uuid>
 
 # List repos (CLI)
@@ -72,12 +133,10 @@ See also: [`kicad_hos_smoke.sh`](../../scripts/kicad_hos_smoke.sh).
 | Sidebar `ai-local` | BOM sync, EOL placeholder, cross-domain heuristics |
 
 ```bash
-export VITE_HBP_API_URL=http://localhost:8000
-export VITE_HBP_ACCESS_TOKEN=<token>
+cp ../hbw/.env.local.example ../hbw/.env.local
+# set VITE_HBP_ACCESS_TOKEN
 cd ../hbw && npm run dev
 ```
-
-Without env vars, HBW falls back to mock data in `src/data/mock.ts`.
 
 ## Verify targets
 

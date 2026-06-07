@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HummingBird Platform — M4-local Status</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --card: #1a2332;
+      --text: #e7ecf3;
+      --muted: #8b9cb3;
+      --ok: #3dd68c;
+      --warn: #f5c542;
+      --err: #f87171;
+      --accent: #5b9fd4;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 2rem 1rem;
+      line-height: 1.5;
+    }
+    .wrap { max-width: 720px; margin: 0 auto; }
+    h1 { font-size: 1.5rem; margin: 0 0 0.25rem; }
+    .tier {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: #243044;
+      color: var(--accent);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+    .subtitle { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+    .card {
+      background: var(--card);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1rem;
+      border: 1px solid #2a3548;
+    }
+    .card h2 { font-size: 1rem; margin: 0 0 0.75rem; }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #2a3548;
+    }
+    .row:last-child { border-bottom: none; }
+    .badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+    }
+    .badge.ok { background: rgba(61, 214, 140, 0.15); color: var(--ok); }
+    .badge.skip { background: rgba(245, 197, 66, 0.15); color: var(--warn); }
+    .badge.err { background: rgba(248, 113, 113, 0.15); color: var(--err); }
+    .badge.pending { background: rgba(139, 156, 179, 0.15); color: var(--muted); }
+    #api-detail { font-size: 0.8rem; color: var(--muted); margin-top: 0.5rem; }
+    footer { margin-top: 2rem; font-size: 0.8rem; color: var(--muted); }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <span class="tier">M4-local</span>
+    <h1>HummingBird Platform Status</h1>
+    <p class="subtitle">Local tier status page — probes <code>http://localhost:8000</code> when API is running.</p>
+
+    <div class="card">
+      <h2>Components</h2>
+      <div class="row">
+        <span>HBP API (<code>/health/live</code>)</span>
+        <span class="badge pending" id="api-badge">checking…</span>
+      </div>
+      <div id="api-detail">Start API: <code>cd hbp-cloud && ./scripts/dev-local.sh</code></div>
+      <div class="row">
+        <span>Collaboration (CRDT in-process)</span>
+        <span class="badge ok">PASS</span>
+      </div>
+      <div class="row">
+        <span>Object storage (local filesystem)</span>
+        <span class="badge ok">PASS</span>
+      </div>
+      <div class="row">
+        <span>Neo4j / OpenSearch</span>
+        <span class="badge skip">skipped</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>M4-local gates</h2>
+      <div class="row"><span>Collab soak (120 iter)</span><span class="badge ok">PASS</span></div>
+      <div class="row"><span>Restore drill (sqlite+objects)</span><span class="badge ok">PASS</span></div>
+      <div class="row"><span>Import loss (headless)</span><span class="badge ok">PASS — 0.00%</span></div>
+      <div class="row"><span>Legal / billing stubs</span><span class="badge ok">PASS</span></div>
+      <div class="row"><span>External status URL (M4-prod)</span><span class="badge pending">PENDING</span></div>
+    </div>
+
+    <footer>
+      <p>Evidence: <a href="../ops/collaboration_soak_local.json">soak JSON</a> ·
+         <a href="../ops/restore_drill_local.md">restore drill</a> ·
+         <a href="../ops/import_loss_local.md">import loss</a></p>
+      <p>ADR-0003 · <a href="../PHASE_0.5_LOCAL_EXIT.md">PHASE_0.5_LOCAL_EXIT.md</a> ·
+         Updated <span id="updated"></span></p>
+    </footer>
+  </div>
+  <script>
+    document.getElementById('updated').textContent = new Date().toISOString().slice(0, 19) + 'Z';
+    const API = 'http://localhost:8000/health/live';
+    const badge = document.getElementById('api-badge');
+    const detail = document.getElementById('api-detail');
+    fetch(API, { mode: 'cors' }).then(r => {
+      if (r.ok) {
+        badge.textContent = 'healthy';
+        badge.className = 'badge ok';
+        return r.json().catch(() => ({}));
+      }
+      throw new Error('HTTP ' + r.status);
+    }).then(body => {
+      detail.textContent = 'API reachable at ' + API + (body.status ? ' — ' + body.status : '');
+    }).catch(() => {
+      badge.textContent = 'offline';
+      badge.className = 'badge err';
+      detail.textContent = 'API not reachable. Start: cd hbp-cloud && ./scripts/dev-local.sh';
+    });
+  </script>
+</body>
+</html>

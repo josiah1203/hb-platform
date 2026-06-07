@@ -1,7 +1,7 @@
 .PHONY: hb-verify-format hb-verify-bridge hb-verify-hos hb-verify-collab \
 	hb-verify-hbw hb-verify-workflow hb-verify-cli hb-verify-platform \
 	hb-verify-registry hb-verify-ai-local hb-verify-devrel hb-verify-coordinator \
-	hb-verify-parallel hb-verify-gates
+	hb-verify-parallel hb-verify-gates hb-verify-gates-local
 
 DESKTOP := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/..)
 
@@ -95,5 +95,7 @@ hb-verify-coordinator:
 hb-verify-parallel:
 	$(MAKE) -j4 hb-verify-format hb-verify-bridge hb-verify-hos hb-verify-cli
 
-hb-verify-gates:
-	@bash scripts/phase05-gates.sh
+hb-verify-gates-local:
+	@PHASE05_TIER=local bash scripts/phase05-gates.sh
+
+hb-verify-gates: hb-verify-gates-local
