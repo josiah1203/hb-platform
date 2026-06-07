@@ -1,0 +1,222 @@
+{
+  "tier": "local",
+  "gate": "m4_local_import_loss",
+  "executed_at_utc": "2026-06-07T03:57:47Z",
+  "loss_limit": 0.05,
+  "tools_exercised": 23,
+  "cases_total": 23,
+  "source_elements": 35,
+  "imported_elements": 35,
+  "aggregate_loss_ratio": 0.0,
+  "passed": true,
+  "harness_ok": true,
+  "cases": [
+    {
+      "tool": "kicad",
+      "case_id": "kicad-minimal-layout",
+      "source_elements": 2,
+      "imported_elements": 2,
+      "loss_ratio": 0.0,
+      "ok": true,
+      "error": null
+    },
+    {
+      "tool": "freecad",
+      "case_id": "freecad-minimal-solid",
+      "source_elements": 1,
+      "imported_elements": 1,
+      "loss_ratio": 0.0,
+      "ok": true,
+      "error": null
+    },
+    {
+      "tool": "klayout",
+      "case_id": "klayout-minimal-gds",
+      "source_elements": 2,
+      "imported_elements": 2,
+      "loss_ratio": 0.0,
+      "ok": true,
+      "error": null
+    },
+    {
+      "tool": "ngspice",
+      "case_id": "ngspice-rc-lowpass",
+      "source_elements": 2,
+      "imported_elements": 2,
+      "loss_ratio": 0.0,
+      "ok": true,
+      "error": null
+    },
+    {
+      "tool": "yosys",
+      "case_id": "yosys-minimal-counter",
+      "source_elements": 2,
+      "imported_elements": 2,
+      "loss_ratio": 0.0,
+      "ok": true,
+      "error": null
+    },
+    {
+      "tool": "verilator",
+      "case_id": "verilator-minimal-tb",
+      "source_elements": 2,
+      "imported_elements": 2,
+      "loss_ratio": 0.0,
+      "ok": true,
+      "error": null
+    },
+    {
+      "tool": "magic",
+      "case_id": "magic-minimal-cell",
+      "source_elements": 2,
+      "imported_elements": 2,
+      "loss_ratio": 0.0,
+      "ok": true,
+      "error": null
+    },
+    {
+      "tool": "openroad",
+      "case_id": "openroad-minimal-flow",
+      "source_elements": 2,
+      "imported_elements": 2,
+      "loss_ratio": 0.0,
+      "ok": true,
+      "error": null
+    },
+    {
+      "tool": "xschem",
+      "case_id": "xschem-minimal-amp",
+      "source_elements": 2,
+      "imported_elements": 2,
+      "loss_ratio": 0.0,
+      "ok": true,
+      "error": null
+    },
+    {
+      "tool": "openems",
+      "case_id": "openems-minimal-patch",
+      "source_elements": 2,
+      "imported_elements": 2,
+      "loss_ratio": 0.0,
+      "ok": true,
+      "error": null
+    },
+    {
+      "tool": "elmer",
+      "case_id": "elmer-minimal-heat",
+      "source_elements": 2,
+      "imported_elements": 2,
+      "loss_ratio": 0.0,
+      "ok": true,
+      "error": null
+    },
+    {
+      "tool": "qucs-s",
+      "case_id": "qucs-s-rc-filter",
+      "source_elements": 2,
+      "imported_elements": 2,
+      "loss_ratio": 0.0,
+      "ok": true,
+      "error": null
+    },
+    {
+      "tool": "platformio",
+      "case_id": "platformio-esp32-env",
+      "source_elements": 2,
+      "imported_elements": 2,
+      "loss_ratio": 0.0,
+      "ok": true,
+      "error": null
+    },
+    {
+      "tool": "blenderbim",
+      "case_id": "blenderbim-minimal",
+      "source_elements": 1,
+      "imported_elements": 1,
+      "loss_ratio": 0.0,
+      "ok": true,
+      "error": null
+    },
+    {
+      "tool": "freecad_bim",
+      "case_id": "freecad_bim-minimal",
+      "source_elements": 1,
+      "imported_elements": 1,
+      "loss_ratio": 0.0,
+      "ok": true,
+      "error": null
+    },
+    {
+      "tool": "openstudio",
+      "case_id": "openstudio-minimal",
+      "source_elements": 1,
+      "imported_elements": 1,
+      "loss_ratio": 0.0,
+      "ok": true,
+      "error": null
+    },
+    {
+      "tool": "qgis",
+      "case_id": "qgis-minimal",
+      "source_elements": 1,
+      "imported_elements": 1,
+      "loss_ratio": 0.0,
+      "ok": true,
+      "error": null
+    },
+    {
+      "tool": "grass",
+      "case_id": "grass-minimal",
+      "source_elements": 1,
+      "imported_elements": 1,
+      "loss_ratio": 0.0,
+      "ok": true,
+      "error": null
+    },
+    {
+      "tool": "openscad",
+      "case_id": "openscad-minimal",
+      "source_elements": 1,
+      "imported_elements": 1,
+      "loss_ratio": 0.0,
+      "ok": true,
+      "error": null
+    },
+    {
+      "tool": "opensees",
+      "case_id": "opensees-minimal",
+      "source_elements": 1,
+      "imported_elements": 1,
+      "loss_ratio": 0.0,
+      "ok": true,
+      "error": null
+    },
+    {
+      "tool": "code_aster",
+      "case_id": "code_aster-minimal",
+      "source_elements": 1,
+      "imported_elements": 1,
+      "loss_ratio": 0.0,
+      "ok": true,
+      "error": null
+    },
+    {
+      "tool": "calculix",
+      "case_id": "calculix-minimal",
+      "source_elements": 1,
+      "imported_elements": 1,
+      "loss_ratio": 0.0,
+      "ok": true,
+      "error": null
+    },
+    {
+      "tool": "librecad",
+      "case_id": "librecad-minimal",
+      "source_elements": 1,
+      "imported_elements": 1,
+      "loss_ratio": 0.0,
+      "ok": true,
+      "error": null
+    }
+  ]
+}

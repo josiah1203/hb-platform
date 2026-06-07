@@ -1,42 +1,19 @@
 {
-  "schema_version": "1.0",
-  "gate": "phase_0.5_collab_soak",
-  "status": "BLOCKED",
-  "description": "Local M4 gate run — API unreachable; Docker daemon not running. Re-run after docker compose up.",
-  "executed_at_utc": "2026-06-05T00:29:53Z",
-  "operator": "hcp-engineer-m4-gates",
-  "blocker": {
-    "code": "docker_daemon_down",
-    "detail": "Cannot connect to the Docker daemon at unix:///Users/josiah/.docker/run/docker.sock",
-    "api_health_http": "connection_refused",
-    "api_url": "http://localhost:8000"
-  },
-  "run_instructions": {
-    "prerequisites": [
-      "Docker Desktop running",
-      "cd hbp-cloud && docker compose up -d",
-      "Project UUID with editor role",
-      "pip install -r hbp-cloud/api/requirements-dev.txt"
-    ],
-    "smoke_command": "python3 hbp-cloud/scripts/collaboration_soak.py --iterations 60 --interval-s 1 --log-file hb-platform/docs/ops/collaboration_soak_local.json",
-    "production_gate_command": "python3 hbp-cloud/scripts/collaboration_soak.py --iterations 14400 --interval-s 1 --log-file hb-platform/docs/ops/collaboration_soak_local.json",
-    "duration_target_hours": 4,
-    "verify": "make hb-verify-collab"
-  },
-  "project_id": null,
-  "iterations_completed": 0,
-  "iterations_target_smoke": 60,
-  "iterations_target_production": 14400,
-  "interval_seconds": 1,
-  "errors": [
-    "Skipped soak: hbp-cloud API not running and Docker unavailable on gate host"
-  ],
-  "metrics": {
-    "presence_heartbeats": 0,
-    "crdt_operations": 0,
-    "soft_lock_acquire": 0,
-    "soft_lock_release": 0,
-    "p99_latency_ms": null
-  },
-  "result": "BLOCKED"
+  "started_at": "2026-06-07T03:55:35.564295+00:00",
+  "finished_at": "2026-06-07T03:57:46.724636+00:00",
+  "api_url": "http://127.0.0.1:8000",
+  "project_id": "c8af677b-a4b1-465b-861e-61042f999078",
+  "iterations": 120,
+  "interval_s": 1.0,
+  "samples": 720,
+  "failures": 0,
+  "heartbeats": 240,
+  "lock_acquires": 240,
+  "lock_releases": 240,
+  "orphaned_lock_ids": [],
+  "p95_ms": 23.8,
+  "p95_limit_ms": 500.0,
+  "passed": true,
+  "tier": "local",
+  "gate": "m4_local_collab_soak"
 }

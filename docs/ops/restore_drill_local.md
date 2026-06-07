@@ -67,3 +67,33 @@ DATABASE_URL=postgresql+psycopg2://hcp:hcp@127.0.0.1:5433/hcp \
 ## Prior dry-run
 
 2026-06-05T00:21:30Z — wave2-platform agent (same prerequisites; superseded by run above).
+
+## Local tier run (2026-06-07T03:54:41Z)
+
+| Field | Value |
+|-------|--------|
+| **Tier** | local |
+| **Gate** | m4_local_restore_drill |
+| **Mechanism** | `hbp-cloud/scripts/local_restore_drill.sh` |
+| **Database** | `.local/hbp.db` (737280 bytes) |
+| **Objects** | `.local/objects/` (0 files) |
+| **Backup size (db bytes)** | 737280 |
+| **orgs / users / projects** | 1 / 1 / 1 |
+| **hos_commits** | 0 |
+| **Result** | **PASS** |
+
+
+## Local tier run (2026-06-07T03:57:46Z)
+
+| Field | Value |
+|-------|--------|
+| **Tier** | local |
+| **Gate** | m4_local_restore_drill |
+| **Mechanism** | `hbp-cloud/scripts/local_restore_drill.sh` |
+| **Database** | `.local/hbp.db` (1110016 bytes) |
+| **Objects** | `.local/objects/` (0 files) |
+| **Backup size (db bytes)** | 1110016 |
+| **orgs / users / projects** | 1 / 1 / 1 |
+| **hos_commits** | 0 |
+| **Result** | **PASS** |
+
