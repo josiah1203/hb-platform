@@ -16,7 +16,7 @@ Binary rule: each row is **PASS** or **BLOCKED** with evidence. No partial credi
 | 1 | Verify suite | **PASS** | `make hb-verify-parallel hb-verify-collab hb-verify-workflow hb-verify-gates-local` exit 0 |
 | 2 | Local API harness | **PASS** | [`hbp-cloud/scripts/dev-local.sh`](https://github.com/hummingbird-labs/hbp-cloud/blob/main/scripts/dev-local.sh) + [`seed_dev.py`](https://github.com/hummingbird-labs/hbp-cloud/blob/main/scripts/seed_dev.py); `/health/live` ok |
 | 3 | Collab soak (120 iter) | **PASS** | [`docs/ops/collaboration_soak_local.json`](ops/collaboration_soak_local.json) — `tier: local`, `passed: true` |
-| 4 | Restore drill (sqlite+objects) | **PASS** | [`docs/ops/restore_drill_local.md`](ops/restore_drill_local.md) — local tier **PASS** (2026-06-07T03:57:46Z) |
+| 4 | Restore drill (sqlite+objects) | **PASS** | [`docs/ops/restore_drill_local.md`](ops/restore_drill_local.md) — local tier **PASS** (2026-06-07T04:02:30Z) |
 | 5 | Import &lt;5% loss (headless) | **PASS** | [`docs/ops/import_loss_local.md`](ops/import_loss_local.md) + [`import_loss_local.json`](ops/import_loss_local.json) — 0.00% loss |
 | 6 | Status page (local static) | **PASS** | [`docs/status/index.html`](status/index.html) |
 | 7 | Legal / billing stubs | **PASS** | [`docs/legal/TOS.md`](legal/TOS.md), [`PRIVACY.md`](legal/PRIVACY.md), [`BILLING.md`](legal/BILLING.md) — engineering beta-ready |
@@ -61,3 +61,4 @@ make hb-verify-gates-local
 | hb-bridge | `feat/hb-v8-phase05-local-evidence` | ✅ (`import_loss_report.py`) |
 | hb-platform | `feat/hb-v8-phase05-local-evidence` | ✅ (evidence JSON/MD + orchestrator) |
 | hb-platform | `feat/hb-v8-phase05-local-docs` | ✅ (ADR-0003, exit docs, strict gates) |
+| hbw | `feat/hb-v8-phase05-local-hbw` | ✅ (`.env.local.example`, integration docs) |

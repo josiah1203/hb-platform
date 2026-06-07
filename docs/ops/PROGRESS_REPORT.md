@@ -100,9 +100,12 @@ make hb-verify-gates-local
 
 | Repo | Branch | Key paths |
 |------|--------|-----------|
-| hb-platform | `feat/hb-v8-phase05-local-docs` | `docs/ADR/0003-*`, `PHASE_0.5_*`, `scripts/phase05-gates.sh`, `docs/status/` |
+| hb-platform | main | `docs/ADR/0003-*`, `PHASE_0.5_*`, `scripts/phase05-gates.sh`, `docs/status/` |
 | hbp-cloud | main | `scripts/dev-local.sh`, `local_restore_drill.sh`, `collaboration_soak.py` |
 | hb-bridge | main | `scripts/import_loss_report.py` |
+| hbw | main | `.env.local.example`, `integration_smoke.md` (hb-platform) |
+
+**Final-verify (2026-06-07):** `run-phase05-local.sh` exit 0; all `hb-verify-*` targets exit 0; `PHASE_0.5_LOCAL_EXIT.md` 10/10 PASS.
 
 ## Next steps
 
