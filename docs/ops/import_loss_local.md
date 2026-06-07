@@ -4,7 +4,7 @@
 
 | Field | Value |
 |-------|--------|
-| **Executed (UTC)** | 2026-06-07T03:57:47Z |
+| **Executed (UTC)** | 2026-06-07T04:02:31Z |
 | **Tier** | local |
 | **Gate** | m4_local_import_loss |
 | **Mechanism** | `hb-bridge/scripts/import_loss_report.py` (headless corpus) |

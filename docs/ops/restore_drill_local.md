@@ -97,3 +97,18 @@ DATABASE_URL=postgresql+psycopg2://hcp:hcp@127.0.0.1:5433/hcp \
 | **hos_commits** | 0 |
 | **Result** | **PASS** |
 
+
+## Local tier run (2026-06-07T04:02:30Z)
+
+| Field | Value |
+|-------|--------|
+| **Tier** | local |
+| **Gate** | m4_local_restore_drill |
+| **Mechanism** | `hbp-cloud/scripts/local_restore_drill.sh` |
+| **Database** | `.local/hbp.db` (1462272 bytes) |
+| **Objects** | `.local/objects/` (0 files) |
+| **Backup size (db bytes)** | 1462272 |
+| **orgs / users / projects** | 1 / 1 / 1 |
+| **hos_commits** | 0 |
+| **Result** | **PASS** |
+

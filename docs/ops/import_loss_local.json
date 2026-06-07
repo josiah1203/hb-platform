@@ -1,7 +1,7 @@
 {
   "tier": "local",
   "gate": "m4_local_import_loss",
-  "executed_at_utc": "2026-06-07T03:57:47Z",
+  "executed_at_utc": "2026-06-07T04:02:31Z",
   "loss_limit": 0.05,
   "tools_exercised": 23,
   "cases_total": 23,

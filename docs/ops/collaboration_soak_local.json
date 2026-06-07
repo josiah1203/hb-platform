@@ -1,6 +1,6 @@
 {
-  "started_at": "2026-06-07T03:55:35.564295+00:00",
-  "finished_at": "2026-06-07T03:57:46.724636+00:00",
+  "started_at": "2026-06-07T04:00:18.900973+00:00",
+  "finished_at": "2026-06-07T04:02:30.176763+00:00",
   "api_url": "http://127.0.0.1:8000",
   "project_id": "c8af677b-a4b1-465b-861e-61042f999078",
   "iterations": 120,
@@ -11,7 +11,7 @@
   "lock_acquires": 240,
   "lock_releases": 240,
   "orphaned_lock_ids": [],
-  "p95_ms": 23.8,
+  "p95_ms": 22.4,
   "p95_limit_ms": 500.0,
   "passed": true,
   "tier": "local",
